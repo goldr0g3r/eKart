@@ -5,13 +5,18 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Environment } from './config';
 import { ConfigToken } from './constant/environment';
+import { LoggerService } from './common/logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // logger
+  const logger = await app.resolve(LoggerService);
+
   // env
   const environment = app.get(ConfigService).get<Environment>(ConfigToken);
   app.useGlobalPipes(new ValidationPipe());
+
   // swagger setup
   const options = new DocumentBuilder()
     .setTitle('eKart API')
@@ -37,5 +42,8 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
   await app.listen(environment?.PORT ?? 3001);
+  logger.log(
+    `Application is running on: http://localhost:${environment?.PORT ?? 3001}`,
+  );
 }
 bootstrap();

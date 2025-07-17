@@ -7,7 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaClient } from 'generated/prisma';
 import { PrismaModule } from './prisma/prisma.module';
 import { registerConfig } from './config';
-
+import { LoggerModule } from './common/logger/logger.module';
+import GetWinstonConfig from './common/logger/winstonConfig';
 
 @Module({
   imports: [
@@ -15,9 +16,11 @@ import { registerConfig } from './config';
       isGlobal: true,
       load: [registerConfig],
     }),
+    LoggerModule.forRoot(GetWinstonConfig()),
     PrismaModule,
     AuthModule,
     UserModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

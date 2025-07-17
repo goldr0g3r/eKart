@@ -33,7 +33,6 @@ export const registerConfig = registerAs(ConfigToken, (): Environment => {
     whitelist: true,
   });
 
-  console.log('Environment Variables:', process.env.PORT);
   if (errors.length > 0) {
     throw new Error(`Configuration validation failed: ${errors}`);
   }
