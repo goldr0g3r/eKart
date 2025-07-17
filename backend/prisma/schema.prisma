@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -30,9 +30,4 @@ model User {
 enum UserRole {
   USER
   ADMIN
-  GUEST
-  VENDOR
-  SELLER
-  DELIVERY
-  SUPPORT
 }
